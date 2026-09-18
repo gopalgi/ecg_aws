@@ -10,7 +10,10 @@ services:
       - AWS_REGION=eu-north-1
       - DYNAMODB_TABLE=ecg-table
     restart: always
-
+backend:
+  build: ./backend
+  env_file:
+    - ./backend/.env
   frontend:
     build: ./frontend
     container_name: ecg-frontend
