@@ -1,12 +1,9 @@
 pipeline {
     agent any
-    
     environment {
-        DOCKER_USER = "dubeygpl"
         FRONTEND_IMAGE = "dubeygpl/ecg-frontend:latest"
         BACKEND_IMAGE = "dubeygpl/ecg-backend:latest"
     }
-
     stages {
         stage('Git Pull') {
             steps {
@@ -25,12 +22,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
                         echo $PASS | docker login -u $USER --password-stdin
-                        
-                        # Image ka naam tumhare docker-compose se lena hai
-                        # docker images command se check karna, ye naam alag ho sakta hai
-                        docker tag ecg_aws_frontend $FRONTEND_IMAGE || docker tag ecg-aws-final_frontend $FRONTEND_IMAGE || docker tag ecg_aws-frontend $FRONTEND_IMAGE
-                        docker tag ecg_aws_backend $BACKEND_IMAGE || docker tag ecg-aws-final_backend $BACKEND_IMAGE || docker tag ecg_aws-backend $BACKEND_IMAGE
-                        
+                        docker tag ecg_aws_frontend $FRONTEND_IMAGE || docker tag ecg-aws-final_frontend $FRONTEND_IMAGE || true
+                        docker tag ecg_aws_backend $BACKEND_IMAGE || docker tag ecg-aws-final_backend $BACKEND_IMAGE || true
                         docker push $FRONTEND_IMAGE
                         docker push $BACKEND_IMAGE
                     '''
