@@ -1,16 +1,16 @@
 pipeline {
     agent any
     stages {
-        stage('Clone') {
-            steps { git branch: 'main', url: 'https://github.com/gopalgi/ecg_aws.git' }
-        }
-        stage('Build Backend') {
-            steps { sh 'docker build -t ecg-backend:${BUILD_NUMBER} ./backend' }
-        }
-        stage('Deploy') {
+        stage('Git Pull') {
             steps {
-                sh 'docker rm -f ecg-app || true'
-                sh 'docker run -d --name ecg-app -p 3000:3000 ecg-backend:${BUILD_NUMBER}'
+                git branch: 'main', url: 'https://github.com/gopalgi/ecg_aws.git'
+            }
+        }
+        stage('Build & Deploy') {
+            steps {
+                sh 'docker-compose down || true'
+                sh 'docker-compose up -d --build'
+                sh 'docker ps'
             }
         }
     }
