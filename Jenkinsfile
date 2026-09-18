@@ -12,9 +12,11 @@ pipeline {
         }
         stage('Build') {
             steps {
-                sh 'docker-compose down || true'
-                sh 'docker-compose up -d --build'
-                sh 'docker images'
+                sh '''
+                    docker-compose down || true
+                    docker-compose up -d --build
+                    docker images
+                '''
             }
         }
         stage('Push to Docker Hub') {
@@ -22,8 +24,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
                     sh '''
                         echo $PASS | docker login -u $USER --password-stdin
-                        docker tag ecg_aws_frontend $FRONTEND_IMAGE || docker tag ecg-aws-final_frontend $FRONTEND_IMAGE || true
-                        docker tag ecg_aws_backend $BACKEND_IMAGE || docker tag ecg-aws-final_backend $BACKEND_IMAGE || true
+                        docker tag ecg-aws-final_frontend $FRONTEND_IMAGE
+                        docker tag ecg-aws-final_backend $BACKEND_IMAGE
                         docker push $FRONTEND_IMAGE
                         docker push $BACKEND_IMAGE
                     '''
