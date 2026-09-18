@@ -35,7 +35,7 @@ function App() {
         </ResponsiveContainer>
       </div>
       <p style={{color: cur.mock ? '#ff0' : '#0f0'}}>
-        Backend: {API} | {cur.mock ? 'Mock Mode: ON (Local Test)' : 'LIVE Mode: OFF - AWS DynamoDB Connected ✅'}
+        Backend: {API} | {cur.mock ? 'Mock Mode: ON (Local Test)' : 'LIVE Mode: ON - AWS DynamoDB Connected ✅'}
       </p>
     </div>
   );
