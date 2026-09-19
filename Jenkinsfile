@@ -9,8 +9,8 @@ pipeline {
             steps {
                 sh '''
                 echo "Copying .env file..."
-                cp /home/ubuntu/ecg_aws/backend/.env ./backend/.env
-                cat ./backend/.env
+                cp /var/lib/jenkins/secrets/ecg.env ./backend/.env
+                ls -l ./backend/.env
                 '''
             }
         }
