@@ -5,9 +5,13 @@ pipeline {
         BACKEND_IMAGE = "dubeygpl/ecg-backend:latest"
     }
     stages {
-        stage('Git Pull') {
+        stage('Prepare Env') {
             steps {
-                git branch: 'main', url: 'https://github.com/gopalgi/ecg_aws.git'
+                sh '''
+                echo "Copying .env file..."
+                cp /home/ubuntu/ecg_aws/backend/.env ./backend/.env
+                cat ./backend/.env
+                '''
             }
         }
         stage('Build') {
@@ -34,8 +38,11 @@ pipeline {
         }
         stage('Verify Deploy') {
             steps {
-                sh 'docker ps'
-                sh 'cp /home/ubuntu/ecg_aws/backend/.env ./backend/.env'
+                sh '''
+                docker ps
+                sleep 5
+                docker logs ecg-backend --tail 20
+                '''
             }
         }
     }
