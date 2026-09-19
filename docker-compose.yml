@@ -5,15 +5,10 @@ services:
     container_name: ecg-backend
     ports:
       - "3001:3001"
-    environment:
-      - PORT=3001
-      - AWS_REGION=eu-north-1
-      - DYNAMODB_TABLE=ecg-table
+    env_file:
+      - ./backend/.env
     restart: always
-backend:
-  build: ./backend
-  env_file:
-    - ./backend/.env
+
   frontend:
     build: ./frontend
     container_name: ecg-frontend
