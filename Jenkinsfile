@@ -35,6 +35,7 @@ pipeline {
         stage('Verify Deploy') {
             steps {
                 sh 'docker ps'
+                sh 'cp /home/ubuntu/ecg_aws/backend/.env ./backend/.env'
             }
         }
     }
